@@ -58,7 +58,8 @@
         <% if (appointments && appointments.length > 0) { %>
           <% appointments.forEach(appointment => { %>
             <li>
-              Client: <%= appointment.client_id %>, Service: <%= appointment.service_id %>, Employee: <%= appointment.employee_id %>, Time: <%= appointment.appointment_time %>
+              Client: <%= appointment.client_id %>, Service: <%= appointment.service_id %>, Employee: <%= appointment.employee_id %>, 
+              Time: <%= new Date(appointment.appointment_time).toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
               <a href="/api/appointments/edit/<%= appointment.appointment_id %>" class="btn">Edit</a>
               <a href="/api/appointments/delete/<%= appointment.appointment_id %>" class="btn">Delete</a>
             </li>

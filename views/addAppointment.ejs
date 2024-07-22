@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="/styles/style.css">
   <title>Add Appointment</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Add Appointment</h1>
     </header>
-    <form action="/api/appointments" method="POST">
+    <form id="appointmentForm">
       <label for="client_id">Client ID:</label>
       <input type="text" id="client_id" name="client_id" required>
 
@@ -27,5 +28,31 @@
       <button type="submit">Add Appointment</button>
     </form>
   </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#appointmentForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        $.ajax({
+          url: '/api/appointments',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            client_id: $('#client_id').val(),
+            service_id: $('#service_id').val(),
+            employee_id: $('#employee_id').val(),
+            appointment_time: $('#appointment_time').val()
+          }),
+          success: function() {
+            window.location.href = '/update-success?operation=add&type=appointment';
+          },
+          error: function(err) {
+            console.error(err);
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

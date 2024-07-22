@@ -9,14 +9,24 @@
 <body>
   <div class="container">
     <header>
-      <h1>Update Success</h1>
+      <h1>Operation Successful</h1>
     </header>
-    <% if (type === 'client') { %>
-      <p>Client updated successfully.</p>
-    <% } else if (type === 'employee') { %>
-      <p>Employee updated successfully.</p>
-    <% } else if (type === 'appointment') { %>
-      <p>Appointment updated successfully.</p>
+    <% if (operation === 'update') { %>
+      <% if (type === 'client') { %>
+        <p>Client updated successfully.</p>
+      <% } else if (type === 'employee') { %>
+        <p>Employee updated successfully.</p>
+      <% } else if (type === 'appointment') { %>
+        <p>Appointment updated successfully.</p>
+      <% } %>
+    <% } else if (operation === 'add') { %>
+      <% if (type === 'client') { %>
+        <p>Client added successfully.</p>
+      <% } else if (type === 'employee') { %>
+        <p>Employee added successfully.</p>
+      <% } else if (type === 'appointment') { %>
+        <p>Appointment added successfully.</p>
+      <% } %>
     <% } %>
     <a href="/" class="btn">Return to Main Page</a>
   </div>
