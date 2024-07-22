@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clients</title>
+  <link rel="'stylesheet" href="styles/style.css">
+</head>
+<body>
+  <h1>Clients</h1>
+  <ul id="client-list"></ul>
+  
+  <script>
+    fetch('/api/clients')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('client-list');
+        data.forEach(client => {
+          const li = document.createElement('li');
+          li.textContent = `${client.first_name} ${client.last_name}`;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
