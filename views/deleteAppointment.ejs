@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <title>Delete Appointment</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Delete Appointment</h1>
+    </header>
+    <form action="/api/appointments/<%= appointment.appointment_id %>?_method=DELETE" method="POST">
+      <p>Are you sure you want to delete the appointment scheduled for <strong><%= appointment.appointment_time %></strong>?</p>
+      <button type="submit">Yes, Delete</button>
+      <a href="/" class="btn btn-edit">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

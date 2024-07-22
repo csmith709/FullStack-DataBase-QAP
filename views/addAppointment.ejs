@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <title>Add Appointment</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Add Appointment</h1>
+    </header>
+    <form action="/api/appointments" method="POST">
+      <label for="client_id">Client ID:</label>
+      <input type="text" id="client_id" name="client_id" required>
+
+      <label for="service_id">Service ID:</label>
+      <input type="text" id="service_id" name="service_id" required>
+
+      <label for="employee_id">Employee ID:</label>
+      <input type="text" id="employee_id" name="employee_id" required>
+
+      <label for="appointment_time">Appointment Time:</label>
+      <input type="datetime-local" id="appointment_time" name="appointment_time" required>
+
+      <button type="submit">Add Appointment</button>
+    </form>
+  </div>
+</body>
+</html>
