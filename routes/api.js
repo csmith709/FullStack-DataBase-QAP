@@ -94,7 +94,7 @@ router.delete('/clients/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await db.query('DELETE FROM Client WHERE client_id = $1', [id]);
-        res.status(204).send();
+        res.redirect('/update-success?operation=delete&type=client');
     } catch (err) {
         res.status(500).send(err.message);
     }
