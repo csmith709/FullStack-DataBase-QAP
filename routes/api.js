@@ -284,7 +284,7 @@ router.delete('/appointments/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await db.query('DELETE FROM Appointment WHERE appointment_id = $1', [id]);
-        res.status(204).send();
+        res.redirect('/update-success?operation=delete&type=appointment');
     } catch (err) {
         res.status(500).send(err.message);
     }
