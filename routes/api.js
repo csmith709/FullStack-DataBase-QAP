@@ -38,44 +38,54 @@ router.get('/clients/:id', async (req, res) => {
 });
 
 // POST a new client
-router.post('/clients', async (req, res) => {
-    const { first_name, last_name, phone_number, email } = req.body;
-    try {
-      // Insert client into the database
-      await db.query(
-        'INSERT INTO Client (first_name, last_name, phone_number, email) VALUES ($1, $2, $3, $4)',
-        [first_name, last_name, phone_number, email]
-      );
-      res.redirect('/update-success?operation=add&type=client');
-    } catch (error) {
-      res.status(500).send('Error adding client');
-    }
-  });  
+router.post('/clients/add', async (req, res) => {
+    const { first_name, last_name, email, phone } = req.body;
 
-// Render form to edit a client
-router.get('/clients/edit/:id', async (req, res) => {
-    const { id } = req.params;
+    if (!first_name || !last_name || !email || !phone) {
+        return res.status(400).send('Missing required fields');
+    }
+
     try {
-        const result = await db.query('SELECT * FROM Client WHERE client_id = $1', [id]);
-        res.render('editClient', { client: result.rows[0] });
+        await db.addClient(first_name, last_name, email, phone); // Ensure `addClient` is defined in `dal.js`
+        res.redirect('/update-success?operation=add&type=client');
     } catch (err) {
-        res.status(500).send(err.message);
+        res.status(500).send('Error adding client');
     }
 });
 
-// PUT update client
-router.put('/clients/:id', async (req, res) => {
+  //Update Client
+  router.post('/clients/update/:id', async (req, res) => {
     const { id } = req.params;
-    const { first_name, last_name, phone_number, email } = req.body;
-    try {
-        await db.query(
-            'UPDATE Client SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE client_id = $5',
-            [first_name, last_name, phone_number, email, parseInt(id)] // Ensure id is an integer
-        );
-        res.redirect(`/update-success?type=client&id=${id}`);
-    } catch (err) {
-        res.status(500).send(err.message);
+    const { first_name, last_name, email, phone_number } = req.body;
+
+    console.log(req.body); // Log the request body for debugging
+
+    if (!first_name || !last_name || !email || !phone_number) {
+        return res.status(400).send('Missing required fields');
     }
+
+    try {
+        await db.updateClient(id, first_name, last_name, email, phone_number);
+        res.redirect('/'); // Redirect to the main page or a success page
+    } catch (err) {
+        console.error('Error updating client:', err); // Log the full error details
+        res.status(500).send('Error updating client');
+    }
+});
+
+
+
+// PUT update client
+router.post('/clients/update/:id', async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, email } = req.body;
+
+  try {
+    await db.updateClient(id, first_name, last_name, email);
+    res.redirect('/');  // Or redirect to a success page
+  } catch (err) {
+    res.status(500).send('Error updating client');
+  }
 });
 
 // Render form to delete a client

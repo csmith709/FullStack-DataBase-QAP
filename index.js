@@ -3,7 +3,7 @@ const methodOverride = require('method-override');
 const db = require('./dal/dal');  // Import your database module
 const app = express();
 const port = 3000;
-const apiRoutes = require('./routes/api');
+const apiRoutes = require('../FullStack-DataBase-QAP/routes/api');
 
 // Middleware
 app.use(express.json());

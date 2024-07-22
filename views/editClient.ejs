@@ -5,28 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
   <title>Edit Client</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Edit Client</h1>
     </header>
-    <form action="/api/clients/<%= client.client_id %>?_method=PUT" method="POST">
+    <form id="edit-client-form">
       <label for="first_name">First Name:</label>
       <input type="text" id="first_name" name="first_name" value="<%= client.first_name %>" required>
-
+    
       <label for="last_name">Last Name:</label>
       <input type="text" id="last_name" name="last_name" value="<%= client.last_name %>" required>
-
+    
       <label for="phone_number">Phone Number:</label>
       <input type="text" id="phone_number" name="phone_number" value="<%= client.phone_number %>">
-
+    
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" value="<%= client.email %>">
-
+    
       <button type="submit">Update Client</button>
     </form>
+    
     <a href="/" class="btn">Return to Main Page</a>
+
+    <!-- Include your AJAX script -->
+    <script>
+      $(document).ready(function() {
+        $('#edit-client-form').on('submit', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          const formData = $(this).serialize(); // Serialize form data
+          const formAction = $(this).attr('action'); // Get the form action URL
+
+          $.ajax({
+            url: formAction,
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+              // Handle success, e.g., redirect or show a message
+              window.location.href = '/update-success?operation=update&type=client&id=<%= client.client_id %>';
+            },
+            error: function(xhr, status, error) {
+              // Handle error
+              alert('Error updating client: ' + error);
+            }
+          });
+        });
+      });
+    </script>
   </div>
 </body>
+
 </html>

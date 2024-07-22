@@ -13,6 +13,40 @@ const pool = new Pool({
 // Function to query the database
 const query = (text, params) => pool.query(text, params);
 
+// Function to add a new client
+const addClient = async (first_name, last_name, email, phone) => {
+  const text = `
+      INSERT INTO Client (first_name, last_name, email, phone)
+      VALUES ($1, $2, $3, $4);
+  `;
+  const values = [first_name, last_name, email, phone];
+  try {
+      const res = await query(text, values);
+      return res;
+  } catch (err) {
+      throw err;
+  }
+};
+
+// Function to update a client
+const updateClient = async (id, first_name, last_name, email, phone_number) => {
+  const text = `
+    UPDATE Client
+    SET first_name = $1,
+        last_name = $2,
+        email = $3,
+        phone_number = $4
+    WHERE client_id = $5;
+  `;
+  const values = [first_name, last_name, email, phone_number, id];
+  try {
+    const res = await query(text, values);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 // Function to update an appointment
 const updateAppointment = async (client_id, service_id, employee_id, appointment_time, appointment_id) => {
   const text = `
@@ -64,6 +98,8 @@ const deleteAppointment = async (appointment_id) => {
 // Export the functions
 module.exports = {
   query,
+  addClient,
+  updateClient, 
   updateAppointment,
   addAppointment,
   deleteAppointment,
