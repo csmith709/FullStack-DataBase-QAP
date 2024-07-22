@@ -4,18 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles/style.css">
-  <title>Delete Client</title>
+  <title>Add Client</title>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Delete Client</h1>
+      <h1>Add Client</h1>
     </header>
-    <form action="/api/clients/<%= client.client_id %>?_method=DELETE" method="POST">
-      <p>Are you sure you want to delete <strong><%= client.first_name %> <%= client.last_name %></strong>?</p>
-      <button type="submit">Yes, Delete</button>
-      <a href="/" class="btn btn-edit">Cancel</a>
+    <form action="/api/clients" method="POST"> <!-- This form will send a POST request to /api/clients -->
+      <label for="first_name">First Name:</label>
+      <input type="text" id="first_name" name="first_name" required>
+
+      <label for="last_name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" required>
+
+      <label for="phone_number">Phone Number:</label>
+      <input type="text" id="phone_number" name="phone_number">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email">
+
+      <button type="submit">Add Client</button>
     </form>
+    <a href="/" class="btn">Return to Main Page</a>
   </div>
 </body>
 </html>

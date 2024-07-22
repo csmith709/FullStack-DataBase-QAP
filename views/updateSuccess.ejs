@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>Update Success</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Update Success</h1>
+    </header>
+    <% if (type === 'client') { %>
+      <p>Client updated successfully.</p>
+    <% } else if (type === 'employee') { %>
+      <p>Employee updated successfully.</p>
+    <% } else if (type === 'appointment') { %>
+      <p>Appointment updated successfully.</p>
+    <% } %>
+    <a href="/" class="btn">Return to Main Page</a>
+  </div>
+</body>
+</html>
