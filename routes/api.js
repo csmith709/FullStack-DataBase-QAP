@@ -8,8 +8,12 @@ router.get('/update-success', (req, res) => {
     res.render('updateSuccess', { type, id });
   });
 
-
 // CLIENT ROUTES
+
+  // Render form to add a new client
+router.get('/clients/add', (req, res) => {
+    res.render('addClient'); // Ensure this matches the EJS filename
+  });
 
 // GET all clients
 router.get('/clients', async (req, res) => {
@@ -101,6 +105,11 @@ router.delete('/clients/:id', async (req, res) => {
 
 // EMPLOYEE ROUTES
 
+// Render form to add a new employee
+router.get('/employees/add', (req, res) => {
+    res.render('addEmployee'); // Ensure this matches the EJS filename
+  });
+
 // GET all employees
 router.get('/employees', async (req, res) => {
   try {
@@ -191,6 +200,11 @@ router.delete('/employees/:id', async (req, res) => {
 
 // APPOINTMENT ROUTES
 
+// Render form to add a new appointment
+router.get('/appointments/add', (req, res) => {
+    res.render('addAppointment'); // Ensure this matches the EJS filename
+  });
+  
 // GET all appointments
 router.get('/appointments', async (req, res) => {
   try {
