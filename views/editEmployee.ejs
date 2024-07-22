@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
   <title>Edit Employee</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Edit Employee</h1>
     </header>
-    <form action="/api/employees/<%= employee.employee_id %>?_method=PUT" method="POST">
+    <form id="edit-employee-form" action="/api/employees/<%= employee.employee_id %>?_method=PUT" method="POST">
       <label for="first_name">First Name:</label>
       <input type="text" id="first_name" name="first_name" value="<%= employee.first_name %>" required>
 
@@ -27,6 +28,30 @@
       <button type="submit">Update Employee</button>
     </form>
     <a href="/" class="btn">Return to Main Page</a>
+
+    <script>
+      $(document).ready(function() {
+        $('#edit-employee-form').on('submit', function(event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          const formData = $(this).serialize(); // Serialize form data
+          const formAction = $(this).attr('action'); // Get the form action URL
+
+          $.ajax({
+  url: formAction, // Ensure this includes the correct URL and method override
+  type: 'POST',
+  data: formData,
+  success: function(response) {
+    window.location.href = '/update-success?type=employee&id=<%= employee.employee_id %>';
+  },
+  error: function(xhr, status, error) {
+    alert('Error updating employee: ' + error);
+  }
+});
+
+        });
+      });
+    </script>
   </div>
 </body>
 </html>

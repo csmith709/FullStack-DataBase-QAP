@@ -26,6 +26,16 @@ app.get('/update-success', (req, res) => {
     res.render('updateSuccess', { operation, type });
 });
 
+app.get('/update-success', (req, res) => {
+    const { operation, type, id } = req.query;
+    console.log('Query Parameters:', { operation, type, id }); // Add this line for debugging
+
+    if (!operation || !type) {
+        return res.status(400).send('Missing query parameters');
+    }
+    res.render('updateSuccess', { operation, type, id });
+});
+
 // Root route
 app.get('/', async (req, res) => {
     try {

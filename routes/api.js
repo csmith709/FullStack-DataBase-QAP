@@ -2,13 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../dal/dal');
 
-
-// GET success page for update
-router.get('/update-success', (req, res) => {
-    const { operation, type, id } = req.query;
-    res.render('updateSuccess', { operation, type, id });
-});
-
 // CLIENT ROUTES
 
 // Render form to add a new client
@@ -53,8 +46,8 @@ router.post('/clients/add', async (req, res) => {
     }
 });
 
-  //Update Client
-  router.post('/clients/update/:id', async (req, res) => {
+// Update Client
+router.put('/clients/update/:id', async (req, res) => {
     const { id } = req.params;
     const { first_name, last_name, email, phone_number } = req.body;
 
@@ -66,26 +59,11 @@ router.post('/clients/add', async (req, res) => {
 
     try {
         await db.updateClient(id, first_name, last_name, email, phone_number);
-        res.redirect('/'); // Redirect to the main page or a success page
+        res.redirect('/update-success?operation=update&type=client&id=' + id);
     } catch (err) {
         console.error('Error updating client:', err); // Log the full error details
         res.status(500).send('Error updating client');
     }
-});
-
-
-
-// PUT update client
-router.post('/clients/update/:id', async (req, res) => {
-  const { id } = req.params;
-  const { first_name, last_name, email } = req.body;
-
-  try {
-    await db.updateClient(id, first_name, last_name, email);
-    res.redirect('/');  // Or redirect to a success page
-  } catch (err) {
-    res.status(500).send('Error updating client');
-  }
 });
 
 // Render form to delete a client
@@ -173,15 +151,15 @@ router.put('/employees/:id', async (req, res) => {
     try {
         await db.query(
             'UPDATE Employee SET first_name = $1, last_name = $2, phone_number = $3, email = $4 WHERE employee_id = $5',
-            [first_name, last_name, phone_number, email, parseInt(id)] // Ensure id is an integer
+            [first_name, last_name, phone_number, email, parseInt(id)]
         );
-        res.redirect(`/update-success?type=employee&id=${id}`);
+        res.redirect(`/update-success?operation=update&type=employee&id=${id}`);
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
-// Render delete confirmation page
+// Render form to delete an employee
 router.get('/employees/delete/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -232,7 +210,6 @@ router.get('/appointments/:id', async (req, res) => {
 });
 
 // POST a new appointment
-// routes/api.js
 router.post('/appointments', async (req, res) => {
     const { client_id, service_id, employee_id, appointment_time } = req.body;
   
@@ -242,15 +219,12 @@ router.post('/appointments', async (req, res) => {
   
     try {
       // Your logic to add an appointment to the database
-      // Example:
       await db.query('INSERT INTO Appointment (client_id, service_id, employee_id, appointment_time) VALUES ($1, $2, $3, $4)', [client_id, service_id, employee_id, appointment_time]);
-  
       res.status(200).send('Appointment added');
     } catch (error) {
       res.status(500).send('Server error');
     }
   });
-  
 
 // Render form to edit an appointment
 router.get('/appointments/edit/:id', async (req, res) => {
@@ -270,14 +244,15 @@ router.put('/appointments/:id', async (req, res) => {
     try {
         await db.query(
             'UPDATE Appointment SET client_id = $1, service_id = $2, employee_id = $3, appointment_time = $4 WHERE appointment_id = $5',
-            [client_id, service_id, employee_id, appointment_time, parseInt(id)] // Ensure id is an integer
+            [client_id, service_id, employee_id, appointment_time, id]
         );
-        res.redirect(`/update-success?type=appointment&id=${id}`);
+        res.redirect(`/update-success?operation=update&type=appointment&id=${id}`);
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
 
+// Render form to delete an appointment
 // Render form to delete an appointment
 router.get('/appointments/delete/:id', async (req, res) => {
     const { id } = req.params;
