@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../dal/dal');
 
+
 // GET success page for update
 router.get('/update-success', (req, res) => {
     const { operation, type, id } = req.query;
@@ -170,12 +171,12 @@ router.put('/employees/:id', async (req, res) => {
     }
 });
 
-// Render form to delete an employee
+// Render delete confirmation page
 router.get('/employees/delete/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const result = await db.query('SELECT * FROM Employee WHERE employee_id = $1', [id]);
-        res.render('deleteEmployee', { employee: result.rows[0] });
+        res.render('deleteEmployee', { employeeId: id });
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -186,7 +187,7 @@ router.delete('/employees/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await db.query('DELETE FROM Employee WHERE employee_id = $1', [id]);
-        res.status(204).send();
+        res.redirect('/update-success?operation=delete&type=employee');
     } catch (err) {
         res.status(500).send(err.message);
     }
