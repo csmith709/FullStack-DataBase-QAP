@@ -32,26 +32,29 @@
     <script>
       $(document).ready(function() {
         $('#edit-employee-form').on('submit', function(event) {
-          event.preventDefault(); // Prevent the default form submission
-
+          event.preventDefault(); // Prevent default form submission
+    
           const formData = $(this).serialize(); // Serialize form data
-          const formAction = $(this).attr('action'); // Get the form action URL
-
+          const formAction = $(this).attr('action'); // Get form action URL
+    
+          console.log('Form Action:', formAction);
+          console.log('Form Data:', formData);
+    
           $.ajax({
-  url: formAction, // Ensure this includes the correct URL and method override
-  type: 'POST',
-  data: formData,
-  success: function(response) {
-    window.location.href = '/update-success?type=employee&id=<%= employee.employee_id %>';
-  },
-  error: function(xhr, status, error) {
-    alert('Error updating employee: ' + error);
-  }
-});
-
+            url: formAction,
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+              window.location.href = '/update-success?operation=update&type=employee&id=<%= employee.employee_id %>';
+            },
+            error: function(xhr, status, error) {
+              alert('Error updating employee: ' + error);
+            }
+          });
         });
       });
     </script>
+    
   </div>
 </body>
 </html>

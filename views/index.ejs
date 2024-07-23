@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
-
-  <script src="../public/js/api.js"></script>
-  <script src="../public/js/appointment.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/appointment.js"></script>
   <title>SPA Management</title>
 </head>
 <body>
@@ -20,17 +19,14 @@
       <h2>Clients</h2>
       <a href="/api/clients/add" class="btn">Add Client</a>
       <ul>
-        <% if (clients && clients.length > 0) { %>
-          <% clients.forEach(client => { %>
-            <li>
-              <%= client.client_id %> - <%= client.first_name %> <%= client.last_name %>
-              <a href="/api/clients/edit/<%= client.client_id %>" class="btn">Edit</a>
-              <a href="/api/clients/delete/<%= client.client_id %>" class="btn">Delete</a>
-            </li>
-          <% }); %>
-        <% } else { %>
-          <li>No clients available</li>
-        <% } %>
+        <% clients.forEach(client => { %>
+          <li>
+            <%= client.first_name %> <%= client.last_name %>
+            (<%= client.email %>, <%= client.phone_number %>)
+            <a href="/api/clients/edit/<%= client.client_id %>">Edit</a>
+            <a href="/api/clients/delete/<%= client.client_id %>">Delete</a>
+          </li>
+        <% }); %>
       </ul>
     </section>
 
@@ -39,17 +35,14 @@
       <h2>Employees</h2>
       <a href="/api/employees/add" class="btn">Add Employee</a>
       <ul>
-        <% if (employees && employees.length > 0) { %>
-          <% employees.forEach(employee => { %>
-            <li>
-              <%= employee.employee_id %> - <%= employee.first_name %> <%= employee.last_name %>
-              <a href="/api/employees/edit/<%= employee.employee_id %>" class="btn">Edit</a>
-              <a href="/api/employees/delete/<%= employee.employee_id %>" class="btn">Delete</a>
-            </li>
-          <% }); %>
-        <% } else { %>
-          <li>No employees available</li>
-        <% } %>
+        <% employees.forEach(employee => { %>
+          <li>
+            <%= employee.first_name %> <%= employee.last_name %>
+            (<%= employee.email %>, <%= employee.phone_number %>)
+            <a href="/api/employees/edit/<%= employee.employee_id %>">Edit</a>
+            <a href="/api/employees/delete/<%= employee.employee_id %>">Delete</a>
+          </li>
+        <% }); %>
       </ul>
     </section>
 
@@ -58,18 +51,16 @@
       <h2>Appointments</h2>
       <a href="/api/appointments/add" class="btn">Add Appointment</a>
       <ul>
-        <% if (appointments && appointments.length > 0) { %>
-          <% appointments.forEach(appointment => { %>
-            <li>
-              Client: <%= appointment.client_id %>, Service: <%= appointment.service_id %>, Employee: <%= appointment.employee_id %>, 
-              Time: <%= new Date(appointment.appointment_time).toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
-              <a href="/api/appointments/edit/<%= appointment.appointment_id %>" class="btn">Edit</a>
-              <a href="/api/appointments/delete/<%= appointment.appointment_id %>" class="btn">Delete</a>
-            </li>
-          <% }); %>
-        <% } else { %>
-          <li>No appointments available</li>
-        <% } %>
+        <% appointments.forEach(appointment => { %>
+          <li>
+            Client: <%= appointment.client_id %>, 
+            Employee: <%= appointment.employee_id %>, 
+            Service: <%= appointment.service_id %>, 
+            Time: <%= appointment.appointment_time %>
+            <a href="/api/appointments/edit/<%= appointment.appointment_id %>">Edit</a>
+            <a href="/api/appointments/delete/<%= appointment.appointment_id %>">Delete</a>
+          </li>
+        <% }); %>
       </ul>
     </section>
   </div>

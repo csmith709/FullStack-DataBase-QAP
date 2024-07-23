@@ -3,7 +3,7 @@ const methodOverride = require('method-override');
 const db = require('./dal/dal');  // Import your database module
 const app = express();
 const port = 3000;
-const apiRoutes = require('../FullStack-DataBase-QAP/routes/api');
+const apiRoutes = require('./routes/api');  // Adjust the path according to your project structure
 
 // Middleware
 app.use(express.json());
@@ -19,17 +19,7 @@ app.use('/api', apiRoutes);
 
 // Define route for update success
 app.get('/update-success', (req, res) => {
-    const { operation, type } = req.query;
-    if (!operation || !type) {
-        return res.status(400).send('Missing query parameters');
-    }
-    res.render('updateSuccess', { operation, type });
-});
-
-app.get('/update-success', (req, res) => {
     const { operation, type, id } = req.query;
-    console.log('Query Parameters:', { operation, type, id }); // Add this line for debugging
-
     if (!operation || !type) {
         return res.status(400).send('Missing query parameters');
     }

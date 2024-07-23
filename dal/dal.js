@@ -47,17 +47,60 @@ const updateClient = async (id, first_name, last_name, email, phone_number) => {
   }
 };
 
-// Function to update an appointment
-const updateAppointment = async (client_id, service_id, employee_id, appointment_time, appointment_id) => {
+// Function to delete a client
+const deleteClient = async (client_id) => {
   const text = `
-    UPDATE Appointment
-    SET client_id = $1,
-        service_id = $2,
-        employee_id = $3,
-        appointment_time = $4
-    WHERE appointment_id = $5;
+    DELETE FROM Client WHERE client_id = $1;
   `;
-  const values = [client_id, service_id, employee_id, appointment_time, appointment_id];
+  const values = [client_id];
+  try {
+    const res = await query(text, values);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Function to add a new employee
+const addEmployee = async (first_name, last_name, phone_number, email) => {
+  const text = `
+      INSERT INTO Employee (first_name, last_name, phone_number, email)
+      VALUES ($1, $2, $3, $4);
+  `;
+  const values = [first_name, last_name, phone_number, email];
+  try {
+      const res = await query(text, values);
+      return res;
+  } catch (err) {
+      throw err;
+  }
+};
+
+// Function to update an employee
+const updateEmployee = async (id, first_name, last_name, phone_number, email) => {
+  const text = `
+    UPDATE Employee
+    SET first_name = $1,
+        last_name = $2,
+        phone_number = $3,
+        email = $4
+    WHERE employee_id = $5;
+  `;
+  const values = [first_name, last_name, phone_number, email, id];
+  try {
+    const res = await query(text, values);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Function to delete an employee
+const deleteEmployee = async (employee_id) => {
+  const text = `
+    DELETE FROM Employee WHERE employee_id = $1;
+  `;
+  const values = [employee_id];
   try {
     const res = await query(text, values);
     return res;
@@ -73,6 +116,25 @@ const addAppointment = async (client_id, service_id, employee_id, appointment_ti
     VALUES ($1, $2, $3, $4);
   `;
   const values = [client_id, service_id, employee_id, appointment_time];
+  try {
+    const res = await query(text, values);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Function to update an appointment
+const updateAppointment = async (client_id, service_id, employee_id, appointment_time, appointment_id) => {
+  const text = `
+    UPDATE Appointment
+    SET client_id = $1,
+        service_id = $2,
+        employee_id = $3,
+        appointment_time = $4
+    WHERE appointment_id = $5;
+  `;
+  const values = [client_id, service_id, employee_id, appointment_time, appointment_id];
   try {
     const res = await query(text, values);
     return res;
@@ -100,7 +162,11 @@ module.exports = {
   query,
   addClient,
   updateClient, 
-  updateAppointment,
+  deleteClient,
+  addEmployee,
+  updateEmployee,
+  deleteEmployee,
   addAppointment,
+  updateAppointment,
   deleteAppointment,
 };
